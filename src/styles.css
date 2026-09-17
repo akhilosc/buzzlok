@@ -142,3 +142,118 @@
     color: var(--color-foreground);
   }
 }
+
+/* ── Buzzlok design system ─────────────────────────────────── */
+@theme {
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --radius: 1rem;
+  --background: oklch(0.15 0.022 268);
+  --foreground: oklch(0.97 0.006 260);
+  --card: oklch(0.19 0.026 268);
+  --card-foreground: oklch(0.97 0.006 260);
+  --popover: oklch(0.19 0.026 268);
+  --popover-foreground: oklch(0.97 0.006 260);
+  --primary: oklch(0.84 0.175 88);
+  --primary-foreground: oklch(0.18 0.03 80);
+  --secondary: oklch(0.25 0.032 268);
+  --secondary-foreground: oklch(0.97 0.006 260);
+  --muted: oklch(0.24 0.028 268);
+  --muted-foreground: oklch(0.72 0.02 265);
+  --accent: oklch(0.66 0.225 342);
+  --accent-foreground: oklch(0.98 0.01 340);
+  --destructive: oklch(0.62 0.22 27);
+  --destructive-foreground: oklch(0.98 0.01 20);
+  --border: oklch(1 0 0 / 11%);
+  --input: oklch(1 0 0 / 14%);
+  --ring: oklch(0.84 0.175 88);
+
+  --buzz: oklch(0.84 0.175 88);
+  --buzz-soft: oklch(0.9 0.12 96);
+  --pulse: oklch(0.72 0.16 195);
+  --live: oklch(0.72 0.2 145);
+  --gradient-buzz: linear-gradient(135deg, oklch(0.84 0.175 88), oklch(0.66 0.225 342));
+  --gradient-ink: radial-gradient(120% 90% at 50% -10%, oklch(0.27 0.06 290) 0%, oklch(0.15 0.022 268) 62%);
+  --shadow-glow: 0 24px 70px -28px color-mix(in oklab, var(--buzz) 55%, transparent);
+  --shadow-card: 0 18px 50px -30px oklch(0 0 0 / 80%);
+}
+
+@theme inline {
+  --color-buzz: var(--buzz);
+  --color-buzz-soft: var(--buzz-soft);
+  --color-pulse: var(--pulse);
+  --color-live: var(--live);
+}
+
+@layer base {
+  body {
+    background-image: var(--gradient-ink);
+    background-attachment: fixed;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, h4, .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.02em;
+  }
+}
+
+@utility text-gradient-buzz {
+  background-image: var(--gradient-buzz);
+  background-clip: text;
+  color: transparent;
+}
+
+@utility glass-panel {
+  background-color: color-mix(in oklab, var(--card) 72%, transparent);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-card);
+}
+
+@keyframes buzz-marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+@keyframes buzz-ping {
+  0% { transform: scale(0.6); opacity: 0.9; }
+  100% { transform: scale(2.6); opacity: 0; }
+}
+@keyframes buzz-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+@keyframes buzz-orbit {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes buzz-caret {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+@keyframes buzz-sweep {
+  0% { transform: translateX(-120%); }
+  100% { transform: translateX(220%); }
+}
+
+.animate-marquee { animation: buzz-marquee 38s linear infinite; }
+.animate-ping-ring { animation: buzz-ping 2.6s cubic-bezier(0.2, 0.6, 0.3, 1) infinite; }
+.animate-float { animation: buzz-float 7s ease-in-out infinite; }
+.animate-orbit { animation: buzz-orbit 26s linear infinite; }
+.animate-caret { animation: buzz-caret 1s step-end infinite; }
+.animate-sweep { animation: buzz-sweep 2.8s ease-in-out infinite; }
+
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.reveal.is-visible { opacity: 1; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee, .animate-ping-ring, .animate-float, .animate-orbit, .animate-sweep { animation: none; }
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
