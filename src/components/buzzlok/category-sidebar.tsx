@@ -7,7 +7,7 @@ import {
   Tag,
   X,
 } from "lucide-react";
-import { categories, neighborhoods } from "@/lib/buzzlok-data";
+import { categories } from "@/lib/buzzlok-data";
 import { useBuzzlok } from "@/context/buzzlok-context";
 
 export function CategorySidebar() {
@@ -15,8 +15,6 @@ export function CategorySidebar() {
     discoveries,
     activeCategory,
     setActiveCategory,
-    selectedArea,
-    setSelectedArea,
     savedIds,
     setIsSavedDrawerOpen,
     setIsSubmitModalOpen,
@@ -29,15 +27,6 @@ export function CategorySidebar() {
 
   const handleCategorySelect = (kind?: string) => {
     setActiveCategory(kind || "All");
-    setIsSidebarOpen(false);
-    const feed = document.getElementById("feed");
-    if (feed) {
-      feed.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  const handleAreaSelect = (area: string) => {
-    setSelectedArea(area);
     setIsSidebarOpen(false);
     const feed = document.getElementById("feed");
     if (feed) {
@@ -62,7 +51,7 @@ export function CategorySidebar() {
       {/* Top Header & Brand */}
       <div className="space-y-5">
         <div className="flex items-center justify-between pb-3 border-b border-border/60">
-          <a href="#top" className="group flex items-center gap-2">
+          <a href="#top" className="group flex items-center gap-2.5">
             <img
               src="/logo-dark.png"
               alt="Buzzlok"
@@ -147,37 +136,6 @@ export function CategorySidebar() {
           </div>
         </div>
 
-        {/* AI Ecosystems Section */}
-        <div>
-          <div className="flex items-center justify-between px-2 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
-            <span className="flex items-center gap-1.5">
-              <Sparkles className="size-3 text-accent" />
-              Ecosystems & Models
-            </span>
-          </div>
-
-          <div className="mt-2 space-y-0.5 max-h-40 overflow-y-auto pr-1 scrollbar-thin">
-            {neighborhoods.map((n) => {
-              const isSelected = selectedArea === n;
-              return (
-                <button
-                  key={n}
-                  type="button"
-                  onClick={() => handleAreaSelect(n)}
-                  className={`flex w-full items-center justify-between rounded-lg px-2.5 py-1.5 text-xs transition-colors cursor-pointer ${
-                    isSelected
-                      ? "bg-accent/15 text-accent font-bold"
-                      : "text-muted-foreground hover:bg-secondary/60 hover:text-foreground"
-                  }`}
-                >
-                  <span className="truncate">{n}</span>
-                  {isSelected && <span className="size-1.5 rounded-full bg-accent" />}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-
         {/* Pricing Model Shortcuts */}
         <div>
           <div className="px-2 text-[10px] font-bold uppercase tracking-wider text-muted-foreground">
@@ -245,39 +203,39 @@ export function CategorySidebar() {
   );
 
   // -------------------------------------------------------------
-  // Slim Sidebar Content (Default View when not hovered)
+  // Slim Sidebar Content (Default View with Big Square Icons)
   // -------------------------------------------------------------
   const slimContent = (
-    <div className="flex h-full w-16 flex-col justify-between items-center py-4 px-2">
-      {/* Top: Logo icon + Quick Submit */}
+    <div className="flex h-full w-20 flex-col justify-between items-center py-4 px-2">
+      {/* Top: Big Square Logo icon + Big Square Submit */}
       <div className="flex flex-col items-center gap-3 w-full">
-        {/* Logo Icon */}
+        {/* Big Square Logo Icon */}
         <a
           href="#top"
-          className="group relative grid size-10 place-items-center rounded-2xl p-1 transition-transform duration-200 hover:scale-110 cursor-pointer"
+          className="group relative grid size-13 place-items-center rounded-2xl border border-border/80 bg-secondary/70 p-2 shadow-sm transition-all duration-200 hover:scale-105 hover:border-buzz/50 hover:bg-buzz/10 cursor-pointer"
           title="Buzzlok AI · Discover More Around You"
         >
           <img
             src="/logo-icon.png"
             alt="Buzzlok"
-            className="size-9 object-contain drop-shadow-sm"
+            className="size-10 object-contain drop-shadow-sm transition-transform duration-200 group-hover:scale-110"
           />
         </a>
 
-        {/* Quick Submit Tool Icon Button */}
+        {/* Big Square Submit Tool Button */}
         <button
           type="button"
           onClick={() => setIsSubmitModalOpen(true)}
-          className="grid size-10 place-items-center rounded-xl bg-buzz text-primary-foreground shadow-sm hover:scale-110 active:scale-95 transition-all cursor-pointer"
+          className="grid size-12 place-items-center rounded-2xl bg-buzz text-primary-foreground shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer font-bold"
           title="Submit AI Tool +"
         >
-          <Sparkles className="size-4" />
+          <Sparkles className="size-5" />
         </button>
 
-        <div className="w-8 h-px bg-border/60 my-1" />
+        <div className="w-10 h-px bg-border/60 my-1" />
 
-        {/* Category Icons Stack */}
-        <div className="flex flex-col items-center gap-1.5 w-full">
+        {/* Big Square Category Icons Stack */}
+        <div className="flex flex-col items-center gap-2 w-full">
           {categories.map((cat) => {
             const isSelected = (cat.kind || "All").toLowerCase() === activeCategory.toLowerCase();
             const count =
@@ -290,18 +248,18 @@ export function CategorySidebar() {
                 key={cat.label}
                 type="button"
                 onClick={() => handleCategorySelect(cat.kind)}
-                className={`group relative grid size-10 place-items-center rounded-xl transition-all duration-150 cursor-pointer ${
+                className={`group relative grid size-12 place-items-center rounded-2xl transition-all duration-150 cursor-pointer ${
                   isSelected
-                    ? "bg-buzz/20 text-buzz border border-buzz/40 shadow-xs scale-105"
-                    : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+                    ? "bg-buzz/20 text-buzz border-2 border-buzz/60 shadow-md scale-105 font-bold"
+                    : "border border-border/60 bg-card/60 text-muted-foreground hover:border-buzz/40 hover:bg-secondary hover:text-foreground"
                 }`}
                 title={`${cat.label} (${count})`}
               >
-                <span className="text-base">{cat.icon}</span>
+                <span className="text-xl">{cat.icon}</span>
 
                 {/* Active Indicator Dot */}
                 {isSelected && (
-                  <span className="absolute -right-0.5 top-1.5 size-1.5 rounded-full bg-buzz" />
+                  <span className="absolute -top-1 -right-1 size-2.5 rounded-full bg-buzz ring-2 ring-background" />
                 )}
               </button>
             );
@@ -309,30 +267,30 @@ export function CategorySidebar() {
         </div>
       </div>
 
-      {/* Bottom Action Icons in Slim Mode */}
-      <div className="flex flex-col items-center gap-2 pt-3 border-t border-border/60 w-full">
-        {/* Saved Stack Icon */}
+      {/* Bottom Big Square Action Icons in Slim Mode */}
+      <div className="flex flex-col items-center gap-2.5 pt-3 border-t border-border/60 w-full">
+        {/* Big Square Saved Stack Icon */}
         <button
           type="button"
           onClick={() => setIsSavedDrawerOpen(true)}
-          className="relative grid size-10 place-items-center rounded-xl border border-border/70 bg-card/60 text-muted-foreground hover:bg-secondary hover:text-buzz transition-all cursor-pointer"
+          className="relative grid size-12 place-items-center rounded-2xl border border-border/70 bg-card/60 text-muted-foreground hover:bg-secondary hover:text-buzz hover:border-buzz/50 transition-all cursor-pointer"
           title={`My Saved Stack (${savedIds.length})`}
         >
-          <Bookmark className={`size-4 ${savedIds.length > 0 ? "fill-buzz text-buzz" : ""}`} />
+          <Bookmark className={`size-5 ${savedIds.length > 0 ? "fill-buzz text-buzz" : ""}`} />
           {savedIds.length > 0 && (
-            <span className="absolute -top-1 -right-1 grid size-4 place-items-center rounded-full bg-buzz text-[9px] font-bold text-primary-foreground">
+            <span className="absolute -top-1 -right-1 grid size-4.5 place-items-center rounded-full bg-buzz text-[9px] font-bold text-primary-foreground">
               {savedIds.length}
             </span>
           )}
         </button>
 
-        {/* Daily Digest Icon */}
+        {/* Big Square Daily Digest Icon */}
         <a
           href="#daily"
-          className="grid size-9 place-items-center rounded-xl text-muted-foreground hover:bg-secondary hover:text-accent transition-colors cursor-pointer"
+          className="grid size-12 place-items-center rounded-2xl border border-border/60 bg-card/60 text-muted-foreground hover:bg-secondary hover:text-accent hover:border-accent/40 transition-colors cursor-pointer"
           title="Buzzlok Daily Digest"
         >
-          <Mail className="size-4" />
+          <Mail className="size-5" />
         </a>
       </div>
     </div>
@@ -340,8 +298,8 @@ export function CategorySidebar() {
 
   return (
     <>
-      {/* Desktop Sticky Sidebar Placeholder (Maintains layout width so page does not shift) */}
-      <div className="hidden lg:block w-16 shrink-0" />
+      {/* Desktop Sticky Sidebar Placeholder (Maintains layout width for big square icons) */}
+      <div className="hidden lg:block w-20 shrink-0" />
 
       {/* Desktop Hover Auto-Expanding Sidebar */}
       <aside
@@ -349,7 +307,7 @@ export function CategorySidebar() {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         className={`hidden lg:flex fixed inset-y-0 left-0 z-40 flex-col border-r border-border/70 bg-card/95 backdrop-blur-2xl shadow-xl transition-all duration-300 ease-out overflow-hidden ${
-          isHovered ? "w-72 shadow-2xl ring-1 ring-buzz/20" : "w-16"
+          isHovered ? "w-72 shadow-2xl ring-1 ring-buzz/20" : "w-20"
         }`}
       >
         {isHovered ? fullContent : slimContent}
