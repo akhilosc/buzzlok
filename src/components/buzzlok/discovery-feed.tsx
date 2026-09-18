@@ -11,7 +11,6 @@ import {
   Home,
   LayoutGrid,
   List,
-  Loader2,
   MapPin,
   RefreshCw,
   Search,
@@ -24,6 +23,7 @@ import {
 import { categories, Discovery, neighborhoods } from "@/lib/buzzlok-data";
 import { useBuzzlok } from "@/context/buzzlok-context";
 import { rankAndFilterDiscoveries } from "@/lib/engine";
+import { AILoader } from "@/components/buzzlok/ai-loader";
 
 type PriceFilter = "All" | "Free" | "Open Source" | "Freemium" | "Paid";
 
@@ -175,7 +175,7 @@ export function DiscoveryFeed() {
               >
                 {isSyncingRadar ? (
                   <>
-                    <Loader2 className="size-3.5 animate-spin" /> Ingesting...
+                    <AILoader size="xs" variant="icon" /> Ingesting Live AI...
                   </>
                 ) : (
                   <>

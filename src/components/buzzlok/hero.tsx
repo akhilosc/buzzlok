@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { ArrowRight, Flame, Loader2, RefreshCw, Search, Sparkles, X, Zap } from "lucide-react";
+import { ArrowRight, Flame, RefreshCw, Search, Sparkles, X, Zap } from "lucide-react";
 import { popularTasks, searchPrompts } from "@/lib/buzzlok-data";
 import { useBuzzlok } from "@/context/buzzlok-context";
+import { AILoader } from "@/components/buzzlok/ai-loader";
 
 function useTypewriter(phrases: string[]) {
   const [text, setText] = useState("");
@@ -73,7 +74,7 @@ export function Hero() {
           >
             {isSyncingRadar ? (
               <>
-                <Loader2 className="size-3 animate-spin text-buzz" />
+                <AILoader size="xs" variant="icon" />
                 <span className="text-buzz font-bold">Syncing Live AI Radar...</span>
               </>
             ) : (

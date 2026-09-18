@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { Bookmark, Loader2, Menu, Sparkles, X, Zap } from "lucide-react";
+import { Bookmark, Menu, Sparkles, X, Zap } from "lucide-react";
 import { useBuzzlok } from "@/context/buzzlok-context";
+import { AILoader } from "@/components/buzzlok/ai-loader";
 
 const links = [
   { href: "#feed", label: "AI Directory" },
@@ -25,25 +26,24 @@ export function SiteNav() {
     <header
       className={`sticky top-0 z-40 w-full transition-all duration-300 ${
         scrolled
-          ? "border-b border-border/80 bg-background/90 backdrop-blur-md shadow-xs py-2.5"
-          : "border-b border-transparent bg-background/50 backdrop-blur-sm py-3"
+          ? "border-b border-border/80 bg-background/85 backdrop-blur-xl shadow-xs"
+          : "bg-background/40 backdrop-blur-md"
       }`}
     >
-      <nav className="w-full flex items-center justify-between px-4 sm:px-6 lg:px-8">
+      <nav className="mx-auto flex h-16 w-full items-center justify-between px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-3">
-          {/* Mobile Categories Toggle */}
+          {/* Mobile Menu Toggle Button (Opens Slim/Full Sidebar) */}
           <button
             type="button"
             onClick={() => setIsSidebarOpen(true)}
-            className="inline-flex items-center gap-1.5 rounded-xl border border-border/80 bg-secondary/80 px-2.5 py-1.5 text-xs font-semibold text-foreground hover:bg-secondary lg:hidden cursor-pointer"
-            title="Open category menu"
+            className="rounded-xl border border-border/70 bg-card/60 p-2 text-foreground transition-colors hover:bg-secondary hover:text-buzz lg:hidden cursor-pointer"
+            aria-label="Toggle navigation categories menu"
           >
-            <Menu className="size-4 text-buzz" />
-            <span className="hidden sm:inline">Categories</span>
+            <Menu className="size-5" />
           </button>
 
-          {/* Mobile Brand Logo (hidden on desktop because sidebar is present) */}
-          <a href="#top" className="group flex items-center gap-2 lg:hidden">
+          {/* Clean Dark Mode Logo */}
+          <a href="#top" className="group flex items-center gap-2">
             <img
               src="/logo-dark.png"
               alt="Buzzlok"
@@ -64,7 +64,7 @@ export function SiteNav() {
           >
             {isSyncingRadar ? (
               <>
-                <Loader2 className="size-3 animate-spin text-buzz" />
+                <AILoader size="xs" variant="icon" />
                 <span>Syncing Radar...</span>
               </>
             ) : (

@@ -8,9 +8,10 @@ import {
 } from "@/components/ui/dialog";
 import { useBuzzlok } from "@/context/buzzlok-context";
 import { DiscoveryKind, PriceCategory } from "@/lib/buzzlok-data";
-import { Cpu, ExternalLink, Globe, Loader2, Send, Sparkles, Tag, Wand2, Zap } from "lucide-react";
+import { Cpu, ExternalLink, Globe, Send, Sparkles, Tag, Wand2, Zap } from "lucide-react";
 import { autoEnrichSubmittedUrl } from "@/lib/engine";
 import { toast } from "sonner";
+import { AILoader } from "@/components/buzzlok/ai-loader";
 
 const kindOptions: { label: string; kind: DiscoveryKind; tag: string; icon: string }[] = [
   { label: "Autonomous Agent", kind: "Agent", tag: "🤖 AGENT", icon: "🤖" },
@@ -183,7 +184,7 @@ export function SubmitBuzzModal() {
                 >
                   {isEnriching ? (
                     <>
-                      <Loader2 className="size-3 animate-spin" /> Enriching...
+                      <AILoader size="xs" variant="icon" /> Enriching...
                     </>
                   ) : (
                     <>

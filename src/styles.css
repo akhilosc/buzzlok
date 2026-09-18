@@ -282,6 +282,34 @@
   }
 }
 
+@keyframes torus-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes torus-spin-reverse {
+  from {
+    transform: rotate(360deg);
+  }
+  to {
+    transform: rotate(0deg);
+  }
+}
+@keyframes torus-pulse {
+  0%,
+  100% {
+    transform: scale(0.96);
+    opacity: 0.75;
+  }
+  50% {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+}
+
 .animate-marquee {
   animation: buzz-marquee 38s linear infinite;
 }
@@ -299,6 +327,18 @@
 }
 .animate-sweep {
   animation: buzz-sweep 2.8s ease-in-out infinite;
+}
+.animate-torus-spin {
+  animation: torus-spin 6s linear infinite;
+}
+.animate-torus-spin-fast {
+  animation: torus-spin 2s linear infinite;
+}
+.animate-torus-spin-reverse {
+  animation: torus-spin-reverse 10s linear infinite;
+}
+.animate-torus-pulse {
+  animation: torus-pulse 3.5s ease-in-out infinite;
 }
 
 .reveal {
@@ -318,7 +358,11 @@
   .animate-ping-ring,
   .animate-float,
   .animate-orbit,
-  .animate-sweep {
+  .animate-sweep,
+  .animate-torus-spin,
+  .animate-torus-spin-fast,
+  .animate-torus-spin-reverse,
+  .animate-torus-pulse {
     animation: none;
   }
   .reveal {

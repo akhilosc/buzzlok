@@ -16,6 +16,7 @@ import { ExploreModal } from "@/components/buzzlok/modals/explore-modal";
 import { SubmitBuzzModal } from "@/components/buzzlok/modals/submit-buzz-modal";
 import { ClaimBusinessModal } from "@/components/buzzlok/modals/claim-business-modal";
 import { SavedDrawer } from "@/components/buzzlok/modals/saved-drawer";
+import { InitialPageLoader } from "@/components/buzzlok/ai-loader";
 import { useReveal } from "@/hooks/use-reveal";
 
 export const Route = createFileRoute("/")({
@@ -27,6 +28,9 @@ function BuzzlokApp() {
 
   return (
     <div className="min-h-screen bg-background text-foreground antialiased selection:bg-buzz/30 selection:text-buzz">
+      {/* Dynamic Torus Page Loader */}
+      <InitialPageLoader />
+
       <div className="flex min-h-screen w-full">
         {/* Left Vertical Category Menu */}
         <CategorySidebar />
