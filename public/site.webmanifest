@@ -1,7 +1,7 @@
 {
-  "name": "Buzzlok · Bangalore Discovery Engine",
-  "short_name": "Buzzlok",
-  "description": "The task-based discovery engine for Bangalore. Find secret listening rooms, weekend night markets, rooftop cinema, and verified deals.",
+  "name": "Buzzlok AI · Real-Time AI & Agent Discovery Engine",
+  "short_name": "Buzzlok AI",
+  "description": "The real-time discovery engine for AI tools, autonomous agents, and foundation models. Find the intelligence that moves your world.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#0a0b0e",
@@ -11,6 +11,16 @@
       "src": "/favicon.ico",
       "sizes": "64x64 32x32 24x24 16x16",
       "type": "image/x-icon"
+    },
+    {
+      "src": "/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
     }
   ]
 }

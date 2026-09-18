@@ -8,13 +8,9 @@ import {
 import { useBuzzlok } from "@/context/buzzlok-context";
 import {
   Bookmark,
-  Calendar,
   CheckCircle2,
-  Clock,
   Compass,
   Flame,
-  MapPin,
-  Share2,
   Sparkles,
   Tag,
   Timer,
@@ -22,7 +18,7 @@ import {
 } from "lucide-react";
 
 export function ExploreModal() {
-  const { selectedDiscovery, setSelectedDiscovery, toggleSave, isSaved, shareDiscovery } =
+  const { selectedDiscovery, setSelectedDiscovery, toggleSave, isSaved } =
     useBuzzlok();
 
   if (!selectedDiscovery) return null;
@@ -155,13 +151,6 @@ export function ExploreModal() {
             >
               <Bookmark className={`size-4 ${saved ? "fill-current" : ""}`} />
               {saved ? "Saved in My Stack" : "Save to Stack"}
-            </button>
-            <button
-              type="button"
-              onClick={() => shareDiscovery(selectedDiscovery)}
-              className="inline-flex items-center gap-2 rounded-xl border border-border bg-secondary px-4 py-2.5 text-sm font-medium transition-colors hover:bg-secondary/80 cursor-pointer"
-            >
-              <Share2 className="size-4" /> Share
             </button>
           </div>
 

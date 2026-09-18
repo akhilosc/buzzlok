@@ -1,17 +1,14 @@
 import {
   Bookmark,
-  Building2,
-  CheckCircle2,
+  ChevronLeft,
   ChevronRight,
-  Flame,
   Layers,
   Mail,
-  MapPin,
-  Search,
+  PanelLeftClose,
+  PanelLeftOpen,
   Sparkles,
   Tag,
   X,
-  Zap,
 } from "lucide-react";
 import { categories, neighborhoods } from "@/lib/buzzlok-data";
 import { useBuzzlok } from "@/context/buzzlok-context";
@@ -28,6 +25,8 @@ export function CategorySidebar() {
     setIsSubmitModalOpen,
     isSidebarOpen,
     setIsSidebarOpen,
+    isSidebarCollapsed,
+    setIsSidebarCollapsed,
     setSearchQuery,
   } = useBuzzlok();
 
@@ -58,33 +57,46 @@ export function CategorySidebar() {
     }
   };
 
-  const sidebarContent = (
+  // -------------------------------------------------------------
+  // Full Expanded Sidebar Content (Used in expanded mode & mobile)
+  // -------------------------------------------------------------
+  const fullContent = (
     <div className="flex h-full flex-col justify-between p-4 sm:p-5">
       {/* Top Header & Brand */}
-      <div className="space-y-6">
+      <div className="space-y-5">
         <div className="flex items-center justify-between pb-3 border-b border-border/60">
-          <a href="#top" className="group flex items-center gap-2.5">
-            <span className="relative grid size-8 place-items-center rounded-xl bg-buzz text-primary-foreground shadow-xs transition-transform duration-300 group-hover:scale-105">
-              <Zap className="size-4" strokeWidth={2.5} />
-              <span className="absolute inset-0 rounded-xl border border-buzz animate-ping-ring" />
-            </span>
-            <span className="font-display text-lg font-bold tracking-tight">
-              Buzz<span className="text-buzz">lok</span>
-              <span className="ml-1 text-[9px] font-extrabold uppercase tracking-wider rounded-md bg-buzz/20 text-buzz px-1.5 py-0.5 border border-buzz/30">
-                AI
-              </span>
+          <a href="#top" className="group flex items-center gap-2">
+            <img
+              src="/logo-dark.png"
+              alt="Buzzlok"
+              className="h-7 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+            />
+            <span className="text-[9px] font-extrabold uppercase tracking-wider rounded-md bg-buzz/20 text-buzz px-1.5 py-0.5 border border-buzz/30">
+              AI
             </span>
           </a>
 
-          {/* Mobile close button */}
-          <button
-            type="button"
-            onClick={() => setIsSidebarOpen(false)}
-            className="rounded-lg p-1 text-muted-foreground hover:bg-secondary hover:text-foreground lg:hidden"
-            title="Close menu"
-          >
-            <X className="size-5" />
-          </button>
+          <div className="flex items-center gap-1">
+            {/* Desktop Collapse Toggle */}
+            <button
+              type="button"
+              onClick={() => setIsSidebarCollapsed(true)}
+              className="hidden lg:grid size-8 place-items-center rounded-lg text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors cursor-pointer"
+              title="Collapse to slim sidebar"
+            >
+              <PanelLeftClose className="size-4" />
+            </button>
+
+            {/* Mobile close button */}
+            <button
+              type="button"
+              onClick={() => setIsSidebarOpen(false)}
+              className="rounded-lg p-1 text-muted-foreground hover:bg-secondary hover:text-foreground lg:hidden cursor-pointer"
+              title="Close menu"
+            >
+              <X className="size-5" />
+            </button>
+          </div>
         </div>
 
         {/* Action Button: Submit AI Tool */}
@@ -159,7 +171,7 @@ export function CategorySidebar() {
             </span>
           </div>
 
-          <div className="mt-2 space-y-0.5 max-h-48 overflow-y-auto pr-1 scrollbar-thin">
+          <div className="mt-2 space-y-0.5 max-h-40 overflow-y-auto pr-1 scrollbar-thin">
             {neighborhoods.map((n) => {
               const isSelected = selectedArea === n;
               return (
@@ -224,7 +236,7 @@ export function CategorySidebar() {
         >
           <span className="flex items-center gap-2">
             <Bookmark className={`size-3.5 ${savedIds.length > 0 ? "fill-buzz text-buzz" : ""}`} />
-            <span>Saved Spots</span>
+            <span>Saved Stack</span>
           </span>
           <span className="grid size-5 place-items-center rounded-full bg-buzz text-[10px] font-bold text-primary-foreground">
             {savedIds.length}
@@ -244,22 +256,143 @@ export function CategorySidebar() {
           <ChevronRight className="size-3 text-muted-foreground" />
         </a>
 
-        {/* Status text */}
-        <div className="px-2 pt-1 text-[11px] text-muted-foreground/70">
-          <span>Bangalore · Real-time discovery</span>
+        {/* Collapse button at bottom */}
+        <button
+          type="button"
+          onClick={() => setIsSidebarCollapsed(true)}
+          className="hidden lg:flex w-full items-center justify-center gap-1.5 rounded-xl border border-border/70 py-2 text-xs font-medium text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors cursor-pointer"
+        >
+          <ChevronLeft className="size-3.5" />
+          <span>Collapse Menu</span>
+        </button>
+      </div>
+    </div>
+  );
+
+  // -------------------------------------------------------------
+  // Slim Sidebar Content (Icon-only with Expand Trigger)
+  // -------------------------------------------------------------
+  const slimContent = (
+    <div className="flex h-full flex-col justify-between items-center py-4 px-2">
+      {/* Top: Logo icon + Expand trigger */}
+      <div className="flex flex-col items-center gap-3 w-full">
+        {/* Logo Icon */}
+        <a
+          href="#top"
+          className="group relative grid size-10 place-items-center rounded-2xl p-1 transition-transform duration-200 hover:scale-110 cursor-pointer"
+          title="Buzzlok AI · Discover More Around You"
+        >
+          <img
+            src="/logo-icon.png"
+            alt="Buzzlok"
+            className="size-9 object-contain drop-shadow-sm"
+          />
+        </a>
+
+        {/* Expand Sidebar Toggle */}
+        <button
+          type="button"
+          onClick={() => setIsSidebarCollapsed(false)}
+          className="grid size-9 place-items-center rounded-xl border border-border/70 bg-secondary/60 text-muted-foreground hover:border-buzz/50 hover:bg-buzz/10 hover:text-buzz transition-all cursor-pointer group"
+          title="Expand menu"
+        >
+          <PanelLeftOpen className="size-4 transition-transform group-hover:scale-110" />
+        </button>
+
+        {/* Submit Tool Icon Button */}
+        <button
+          type="button"
+          onClick={() => setIsSubmitModalOpen(true)}
+          className="grid size-10 place-items-center rounded-xl bg-buzz text-primary-foreground shadow-sm hover:scale-110 active:scale-95 transition-all cursor-pointer"
+          title="Submit AI Tool +"
+        >
+          <Sparkles className="size-4" />
+        </button>
+
+        <div className="w-8 h-px bg-border/60 my-1" />
+
+        {/* Category Icons Stack */}
+        <div className="flex flex-col items-center gap-1.5 w-full">
+          {categories.map((cat) => {
+            const isSelected = (cat.kind || "All").toLowerCase() === activeCategory.toLowerCase();
+            const count =
+              cat.kind === undefined
+                ? discoveries.length
+                : discoveries.filter((d) => d.kind.toLowerCase() === cat.kind?.toLowerCase()).length;
+
+            return (
+              <button
+                key={cat.label}
+                type="button"
+                onClick={() => handleCategorySelect(cat.kind)}
+                className={`group relative grid size-10 place-items-center rounded-xl transition-all duration-150 cursor-pointer ${
+                  isSelected
+                    ? "bg-buzz/20 text-buzz border border-buzz/40 shadow-xs scale-105"
+                    : "text-muted-foreground hover:bg-secondary hover:text-foreground"
+                }`}
+                title={`${cat.label} (${count})`}
+              >
+                <span className="text-base">{cat.icon}</span>
+
+                {/* Active Indicator Dot */}
+                {isSelected && (
+                  <span className="absolute -right-0.5 top-1.5 size-1.5 rounded-full bg-buzz" />
+                )}
+              </button>
+            );
+          })}
         </div>
+      </div>
+
+      {/* Bottom Action Icons in Slim Mode */}
+      <div className="flex flex-col items-center gap-2 pt-3 border-t border-border/60 w-full">
+        {/* Saved Stack Icon */}
+        <button
+          type="button"
+          onClick={() => setIsSavedDrawerOpen(true)}
+          className="relative grid size-10 place-items-center rounded-xl border border-border/70 bg-card/60 text-muted-foreground hover:bg-secondary hover:text-buzz transition-all cursor-pointer"
+          title={`My Saved Stack (${savedIds.length})`}
+        >
+          <Bookmark className={`size-4 ${savedIds.length > 0 ? "fill-buzz text-buzz" : ""}`} />
+          {savedIds.length > 0 && (
+            <span className="absolute -top-1 -right-1 grid size-4 place-items-center rounded-full bg-buzz text-[9px] font-bold text-primary-foreground">
+              {savedIds.length}
+            </span>
+          )}
+        </button>
+
+        {/* Daily Digest Icon */}
+        <a
+          href="#daily"
+          className="grid size-9 place-items-center rounded-xl text-muted-foreground hover:bg-secondary hover:text-accent transition-colors cursor-pointer"
+          title="Buzzlok Daily Digest"
+        >
+          <Mail className="size-4" />
+        </a>
+
+        {/* Expand Arrow Button */}
+        <button
+          type="button"
+          onClick={() => setIsSidebarCollapsed(false)}
+          className="grid size-8 place-items-center rounded-lg text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors cursor-pointer"
+          title="Expand menu"
+        >
+          <ChevronRight className="size-4" />
+        </button>
       </div>
     </div>
   );
 
   return (
     <>
-      {/* Desktop Sticky Sidebar */}
+      {/* Desktop Sticky Sidebar (Slim by default with smooth expand) */}
       <aside
-        aria-label="Discovery Categories and Neighborhoods"
-        className="hidden lg:flex w-64 xl:w-72 shrink-0 flex-col border-r border-border/70 bg-card/40 backdrop-blur-xl h-screen sticky top-0 overflow-y-auto scrollbar-thin z-30"
+        aria-label="Discovery Categories Navigation"
+        className={`hidden lg:flex shrink-0 flex-col border-r border-border/70 bg-card/40 backdrop-blur-xl h-screen sticky top-0 overflow-y-auto scrollbar-thin z-30 transition-all duration-300 ease-in-out ${
+          isSidebarCollapsed ? "w-16" : "w-64 xl:w-72"
+        }`}
       >
-        {sidebarContent}
+        {isSidebarCollapsed ? slimContent : fullContent}
       </aside>
 
       {/* Mobile Drawer Overlay */}
@@ -282,7 +415,7 @@ export function CategorySidebar() {
             aria-label="Mobile Categories Navigation"
             className="fixed inset-y-0 left-0 w-72 sm:w-80 bg-card shadow-2xl border-r border-border overflow-y-auto scrollbar-thin z-50 animate-in slide-in-from-left duration-300"
           >
-            {sidebarContent}
+            {fullContent}
           </aside>
         </div>
       )}

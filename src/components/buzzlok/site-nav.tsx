@@ -42,16 +42,15 @@ export function SiteNav() {
             <span className="hidden sm:inline">Categories</span>
           </button>
 
-          <a href="#top" className="group flex items-center gap-2">
-            <span className="relative grid size-8 place-items-center rounded-xl bg-buzz text-primary-foreground shadow-xs transition-transform duration-300 group-hover:scale-105">
-              <Zap className="size-4" strokeWidth={2.5} />
-              <span className="absolute inset-0 rounded-xl border border-buzz animate-ping-ring" />
-            </span>
-            <span className="font-display text-lg font-bold tracking-tight">
-              Buzz<span className="text-buzz">lok</span>
-              <span className="ml-1 text-[9px] font-extrabold uppercase tracking-wider rounded-md bg-buzz/20 text-buzz px-1.5 py-0.5 border border-buzz/30">
-                AI
-              </span>
+          {/* Mobile Brand Logo (hidden on desktop because sidebar is present) */}
+          <a href="#top" className="group flex items-center gap-2 lg:hidden">
+            <img
+              src="/logo-dark.png"
+              alt="Buzzlok"
+              className="h-7 w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+            />
+            <span className="text-[9px] font-extrabold uppercase tracking-wider rounded-md bg-buzz/20 text-buzz px-1.5 py-0.5 border border-buzz/30">
+              AI
             </span>
           </a>
 
@@ -61,7 +60,7 @@ export function SiteNav() {
             disabled={isSyncingRadar}
             onClick={syncLiveRadar}
             title="Click to sync live AI radar across GitHub, Hugging Face, and Product feeds"
-            className="hidden sm:inline-flex items-center gap-1.5 rounded-full border border-buzz/40 bg-buzz/10 px-2.5 py-0.5 text-[11px] font-semibold text-buzz transition-all hover:bg-buzz/20 cursor-pointer disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-full border border-buzz/40 bg-buzz/10 px-3 py-1 text-[11px] font-semibold text-buzz transition-all hover:bg-buzz/20 cursor-pointer disabled:opacity-50"
           >
             {isSyncingRadar ? (
               <>

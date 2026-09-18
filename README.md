@@ -1,24 +1,51 @@
-# BuzzLok Connect
+# Buzzlok AI · Real-Time AI Tools & Autonomous Agents Discovery Engine
 
-this is regarding a project buzzlok
+Buzzlok is a real-time discovery engine and intelligence radar for artificial intelligence. It automatically evaluates, indexes, and ranks verified AI tools, autonomous agents, open-weights reasoning models, and generative workflows.
 
-This project was built with [Lovable](https://lovable.dev).
+## ⚡ Core Features
 
-## Build with Lovable
+- **Live Intelligence Radar**: Continuous background scanner ingesting trending AI releases from GitHub, Hugging Face Hub, and developer ecosystems.
+- **Task-First Semantic Search**: Multi-dimensional capability matching for coding assistants, reasoning LLMs, agentic workflows, generative vision, voice synthesis, and local inference.
+- **60-Second Intelligence Cards**: Structured breakdowns providing exact technical insights, benchmark scores, why it matters, and direct developer links.
+- **Personalized Stacks**: Bookmark and curate your custom AI tech stack.
+- **Founder Auto-Fill & Verification**: Instant metadata enrichment from any GitHub repo or product URL with verification workflows.
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/18f299e7-5b37-403e-92b3-17383a439f59).
+## 🛠️ Tech Stack
 
-- **Ship faster**: describe what you want to build and Lovable handles the code.
-- **Stay in sync**: every change made in Lovable is committed straight to this repository.
-- **Full ownership**: this code is yours. Push to `main` on GitHub and your changes sync back into Lovable, ready for your next prompt.
+- **Framework**: React 18 + TanStack Router + Vite
+- **Data Engine**: Automated Ingestion (GitHub/Hugging Face), Heuristic Intent Matcher, Live Scoring & Normalization
+- **Styling**: TailwindCSS, Glassmorphism, DM Sans & Space Grotesk Typography
+- **Icons**: Lucide Icons
+- **State Management**: TanStack Query + React Context + LocalStorage Persistence
 
-## Development
+## 🚀 Getting Started
 
-Prefer working locally? You need Node.js and npm — [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating).
+### Prerequisites
+- Node.js (v18+)
+- npm or bun
+
+### Local Development
 
 ```sh
-git clone <this-repository-url>
-cd <repository-name>
-npm i
+# Clone repository
+git clone https://github.com/akhilosc/buzzlok.git
+cd buzzlok
+
+# Install dependencies
+npm install
+
+# Start local development server
 npm run dev
 ```
+
+Open [http://localhost:8080](http://localhost:8080) to explore the live app.
+
+## 📦 Production Build
+
+```sh
+npm run build
+```
+
+---
+
+Built for developers, researchers, and AI builders globally.

@@ -25,6 +25,8 @@ interface BuzzlokContextType {
   setIsSavedDrawerOpen: (open: boolean) => void;
   isSidebarOpen: boolean;
   setIsSidebarOpen: (open: boolean) => void;
+  isSidebarCollapsed: boolean;
+  setIsSidebarCollapsed: React.Dispatch<React.SetStateAction<boolean>>;
   selectedInterests: string[];
   toggleInterest: (interest: string) => void;
   selectedTimeframe: string;
@@ -85,6 +87,23 @@ export function BuzzlokProvider({ children }: { children: React.ReactNode }) {
   const [isClaimModalOpen, setIsClaimModalOpen] = useState<boolean>(false);
   const [isSavedDrawerOpen, setIsSavedDrawerOpen] = useState<boolean>(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState<boolean>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const stored = localStorage.getItem("buzzlok_sidebar_collapsed");
+        if (stored !== null) return JSON.parse(stored);
+      } catch {}
+    }
+    return true; // Slim by default on desktop!
+  });
+
+  React.useEffect(() => {
+    if (typeof window !== "undefined") {
+      try {
+        localStorage.setItem("buzzlok_sidebar_collapsed", JSON.stringify(isSidebarCollapsed));
+      } catch {}
+    }
+  }, [isSidebarCollapsed]);
   const [selectedInterests, setSelectedInterests] = useState<string[]>([
     "Autonomous Agents",
     "Code Generation",
@@ -263,6 +282,8 @@ export function BuzzlokProvider({ children }: { children: React.ReactNode }) {
         setIsSavedDrawerOpen,
         isSidebarOpen,
         setIsSidebarOpen,
+        isSidebarCollapsed,
+        setIsSidebarCollapsed,
         selectedInterests,
         toggleInterest,
         selectedTimeframe,

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Check, Facebook, Instagram, Link2, Mail, MessageCircle, Twitter } from "lucide-react";
+import { Check, Mail, Cpu, Sparkles, Activity, Database, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
 
 const items = [
@@ -8,6 +8,33 @@ const items = [
   "Open-source weights released on Hugging Face & GitHub",
   "Must-try agentic prompts and workflows for developers",
   "AI API price changes, free tier updates, and discounts",
+];
+
+const ecosystemMetrics = [
+  {
+    icon: Activity,
+    title: "Continuous Radar Sweep",
+    desc: "Automated ingestion pipeline scanning GitHub, Hugging Face & RSS every 10 min.",
+    badge: "Active",
+  },
+  {
+    icon: Cpu,
+    title: "Benchmark Validation",
+    desc: "Tracking live SWE-bench, LMSYS Arena, HumanEval and MMLU-Pro scores.",
+    badge: "SOTA",
+  },
+  {
+    icon: Database,
+    title: "Open Weights & APIs",
+    desc: "Deep indexing across local GGUF/Ollama weights and cloud API endpoints.",
+    badge: "Indexed",
+  },
+  {
+    icon: ShieldCheck,
+    title: "100% Verified Quality",
+    desc: "Capability checks, pricing classification, and direct developer links.",
+    badge: "Verified",
+  },
 ];
 
 export function Daily() {
@@ -21,38 +48,6 @@ export function Daily() {
       toast.success("Welcome to Buzzlok AI Daily! 📬", {
         description: `We'll send your first 5-minute AI intelligence digest to ${email} tomorrow morning.`,
       });
-    }
-  };
-
-  const handleShare = (channel: string) => {
-    const text = "Discover verified AI tools, autonomous agents, and breakthrough models with Buzzlok AI!";
-    const url = typeof window !== "undefined" ? window.location.origin : "https://buzzlok.com";
-
-    if (channel === "Copy link") {
-      if (typeof navigator !== "undefined" && navigator.clipboard) {
-        navigator.clipboard.writeText(url);
-        toast.success("Link copied to clipboard! 📋");
-      }
-      return;
-    }
-
-    if (channel === "WhatsApp") {
-      window.open(
-        `https://api.whatsapp.com/send?text=${encodeURIComponent(`${text} ${url}`)}`,
-        "_blank",
-      );
-    } else if (channel === "X") {
-      window.open(
-        `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`,
-        "_blank",
-      );
-    } else if (channel === "Facebook") {
-      window.open(
-        `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
-        "_blank",
-      );
-    } else {
-      toast.info(`Sharing to ${channel}...`);
     }
   };
 
@@ -99,7 +94,7 @@ export function Daily() {
             />
             <button
               type="submit"
-              className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-buzz px-6 py-3 text-sm font-semibold text-primary-foreground transition-transform hover:scale-[1.03]"
+              className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-buzz px-6 py-3 text-sm font-semibold text-primary-foreground transition-transform hover:scale-[1.03] cursor-pointer"
             >
               {done ? (
                 <>
@@ -115,35 +110,52 @@ export function Daily() {
           </p>
         </div>
 
-        <div className="reveal glass-panel rounded-[2rem] p-6 sm:p-8">
-          <h3 className="text-xl font-semibold">Built to be passed on</h3>
-          <p className="mt-3 text-sm text-muted-foreground">
-            Local finds, deals and events travel by sharing. Every discovery is one tap away from a
-            group chat.
-          </p>
-          <div className="mt-6 grid gap-2">
-            {[
-              { icon: MessageCircle, label: "WhatsApp" },
-              { icon: Instagram, label: "Instagram" },
-              { icon: Twitter, label: "X" },
-              { icon: Facebook, label: "Facebook" },
-              { icon: Link2, label: "Copy link" },
-            ].map(({ icon: Icon, label }) => (
-              <button
-                key={label}
-                type="button"
-                onClick={() => handleShare(label)}
-                className="group flex items-center justify-between rounded-xl border border-border px-4 py-3 text-sm transition-all hover:-translate-y-0.5 hover:border-buzz/50 hover:bg-secondary/80"
-              >
-                <div className="flex items-center gap-3">
-                  <Icon className="size-4 text-buzz" />
-                  <span>{label}</span>
-                </div>
-                <span className="text-xs text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100">
-                  Share →
+        <div className="reveal glass-panel rounded-[2rem] p-6 sm:p-8 flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between">
+              <span className="inline-flex items-center gap-1.5 rounded-full border border-buzz/30 bg-buzz/10 px-3 py-1 text-xs font-semibold text-buzz">
+                <Sparkles className="size-3.5" /> Real-Time AI Radar
+              </span>
+              <span className="relative flex items-center gap-1.5 text-xs text-live font-medium">
+                <span className="relative flex size-2">
+                  <span className="absolute inline-flex size-2 rounded-full bg-live animate-ping-ring" />
+                  <span className="relative inline-flex size-2 rounded-full bg-live" />
                 </span>
-              </button>
-            ))}
+                Live Feed
+              </span>
+            </div>
+
+            <h3 className="mt-4 text-xl font-bold">Automated Ecosystem Intelligence</h3>
+            <p className="mt-2 text-xs sm:text-sm text-muted-foreground leading-relaxed">
+              Buzzlok automatically scans and evaluates the latest autonomous agents, open-weights reasoning models, and developer tooling 24/7.
+            </p>
+
+            <div className="mt-5 space-y-2.5">
+              {ecosystemMetrics.map(({ icon: Icon, title, desc, badge }) => (
+                <div
+                  key={title}
+                  className="flex items-start gap-3 rounded-xl border border-border/70 bg-card/50 p-3 transition-colors hover:border-buzz/40"
+                >
+                  <div className="grid size-8 shrink-0 place-items-center rounded-lg bg-buzz/10 text-buzz">
+                    <Icon className="size-4" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between gap-2">
+                      <p className="text-xs font-bold text-foreground">{title}</p>
+                      <span className="rounded-md bg-secondary px-1.5 py-0.5 text-[9px] font-semibold text-muted-foreground">
+                        {badge}
+                      </span>
+                    </div>
+                    <p className="mt-0.5 text-[11px] text-muted-foreground leading-tight">{desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-5 pt-4 border-t border-border/60 flex items-center justify-between text-xs text-muted-foreground">
+            <span>Powered by Buzzlok Automation Pipeline</span>
+            <span className="text-buzz font-semibold">100% Free Access</span>
           </div>
         </div>
       </div>

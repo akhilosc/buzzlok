@@ -102,7 +102,7 @@ const TASK_INTENT_MAP: Record<string, string[]> = {
     "build app",
     "v0",
     "bolt",
-    "lovable",
+    "replit",
     "fullstack",
     "saas",
     "website creator",

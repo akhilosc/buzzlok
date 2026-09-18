@@ -14,7 +14,6 @@ import {
   MapPin,
   RefreshCw,
   Search,
-  Share2,
   SlidersHorizontal,
   Sparkles,
   Tag,
@@ -43,7 +42,6 @@ export function DiscoveryFeed() {
     upvotedIds,
     toggleUpvote,
     getUpvotes,
-    shareDiscovery,
     setSelectedDiscovery,
     setIsSubmitModalOpen,
     isSyncingRadar,
@@ -101,25 +99,25 @@ export function DiscoveryFeed() {
     if (
       searchQuery ||
       activeCategory !== "All" ||
-      selectedArea !== "All Areas" ||
-      priceFilter !== "All"
+      selectedArea !== "All Ecosystems" ||
+      priceFilter !== "All" ||
+      activeLane !== "All AI Tools"
     ) {
       return [];
     }
-    return sorted.slice(0, 2);
-  }, [sorted, searchQuery, activeCategory, selectedArea, priceFilter]);
+    return sorted.filter((d) => d.heat >= 88).slice(0, 2);
+  }, [sorted, searchQuery, activeCategory, selectedArea, priceFilter, activeLane]);
 
+  // Remaining list items
   const directoryList = useMemo(() => {
-    if (featured.length > 0) {
-      const featuredIds = new Set(featured.map((f) => f.id));
-      return sorted.filter((d) => !featuredIds.has(d.id));
-    }
-    return sorted;
+    if (featured.length === 0) return sorted;
+    const featuredIds = new Set(featured.map((f) => f.id));
+    return sorted.filter((d) => !featuredIds.has(d.id));
   }, [sorted, featured]);
 
   return (
-    <section id="feed" className="w-full px-4 sm:px-6 lg:px-8 pt-4 pb-16 scroll-mt-20">
-      <div className="w-full">
+    <section id="feed" className="w-full px-4 sm:px-6 lg:px-8 py-10 scroll-mt-20">
+      <div className="w-full space-y-6">
         {/* Directory Controls Bar */}
         <div className="border-b border-border/60 pb-3">
           <div className="flex flex-wrap items-center justify-between gap-3">
@@ -170,7 +168,7 @@ export function DiscoveryFeed() {
               <button
                 type="button"
                 disabled={isSyncingRadar}
-                onClick={syncLiveRadar}
+                onClick={() => syncLiveRadar(false)}
                 title="Fetch live AI releases from GitHub, Hugging Face, and Product feeds"
                 className="inline-flex items-center gap-1.5 rounded-xl border border-buzz/40 bg-buzz/10 px-3.5 py-2 text-xs font-semibold text-buzz transition-all hover:bg-buzz/20 cursor-pointer disabled:opacity-50"
               >
@@ -230,13 +228,12 @@ export function DiscoveryFeed() {
             })}
           </div>
 
-          {/* Secondary Filter Row: Ecosystem, Price, Sort */}
-          <div className="mt-2 flex flex-wrap items-center justify-between gap-3 pt-2 text-xs text-muted-foreground">
-            {/* Left: Ecosystem & Price Filter */}
-            <div className="flex flex-wrap items-center gap-2 sm:gap-3">
-              {/* Ecosystem selector */}
-              <div className="flex items-center gap-1.5 rounded-xl border border-border/80 bg-card/70 px-2.5 py-1">
-                <Sparkles className="size-3.5 text-accent" />
+          {/* Secondary Controls Bar: Filters & Sorting */}
+          <div className="mt-3 flex flex-wrap items-center justify-between gap-3 text-xs">
+            {/* Left: Ecosystem Filter + Price filter */}
+            <div className="flex flex-wrap items-center gap-2">
+              <div className="flex items-center gap-1.5 rounded-xl border border-border/80 bg-card/70 px-3 py-1.5">
+                <MapPin className="size-3.5 text-buzz" />
                 <select
                   value={selectedArea}
                   onChange={(e) => setSelectedArea(e.target.value)}
@@ -381,7 +378,6 @@ export function DiscoveryFeed() {
                       isSaved={isSaved(d.id)}
                       onToggleUpvote={() => toggleUpvote(d.id)}
                       onToggleSave={() => toggleSave(d.id)}
-                      onShare={() => shareDiscovery(d)}
                       onExplore={() => setSelectedDiscovery(d)}
                       isFeatured
                     />
@@ -413,7 +409,6 @@ export function DiscoveryFeed() {
                       isSaved={isSaved(d.id)}
                       onToggleUpvote={() => toggleUpvote(d.id)}
                       onToggleSave={() => toggleSave(d.id)}
-                      onShare={() => shareDiscovery(d)}
                       onExplore={() => setSelectedDiscovery(d)}
                     />
                   ))}
@@ -430,7 +425,6 @@ export function DiscoveryFeed() {
                       isSaved={isSaved(d.id)}
                       onToggleUpvote={() => toggleUpvote(d.id)}
                       onToggleSave={() => toggleSave(d.id)}
-                      onShare={() => shareDiscovery(d)}
                       onExplore={() => setSelectedDiscovery(d)}
                     />
                   ))}
@@ -454,7 +448,6 @@ function TaaftCard({
   isSaved,
   onToggleUpvote,
   onToggleSave,
-  onShare,
   onExplore,
   isFeatured = false,
 }: {
@@ -464,7 +457,6 @@ function TaaftCard({
   isSaved: boolean;
   onToggleUpvote: () => void;
   onToggleSave: () => void;
-  onShare: () => void;
   onExplore: () => void;
   isFeatured?: boolean;
 }) {
@@ -583,58 +575,66 @@ function TaaftCard({
         </div>
       </div>
 
-      {/* Action Bar */}
-      <div className="mt-3.5 flex items-center gap-2 border-t border-border/50 pt-2.5 text-xs">
+      {/* Card Action Footer */}
+      <div className="mt-5 flex items-center justify-between gap-2 border-t border-border/50 pt-3">
+        {/* Upvote Pill Button */}
         <button
           type="button"
-          onClick={onExplore}
-          aria-label={`Read 60-second breakdown for ${discovery.title}`}
-          className="inline-flex flex-1 items-center justify-center gap-1 rounded-xl bg-buzz/15 px-3 py-1.5 font-bold text-buzz transition-all hover:bg-buzz hover:text-primary-foreground active:scale-95 cursor-pointer"
-        >
-          <Compass className="size-3.5" aria-hidden="true" /> Breakdown
-        </button>
-
-        {discovery.websiteUrl && (
-          <a
-            href={discovery.websiteUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`Launch official site for ${discovery.title}`}
-            className="inline-flex items-center gap-1 rounded-xl bg-buzz px-3 py-1.5 font-bold text-primary-foreground text-xs hover:scale-105 active:scale-95 transition-transform"
-            title="Try AI / Visit Website"
-          >
-            <span>Try AI</span>
-            <ExternalLink className="size-3" />
-          </a>
-        )}
-
-        <button
-          type="button"
-          onClick={onToggleSave}
+          onClick={onToggleUpvote}
           aria-label={
-            isSaved
-              ? `Remove ${discovery.title} from saved tools`
-              : `Save ${discovery.title} to your stack`
+            isUpvoted
+              ? `Remove upvote for ${discovery.title}. Currently ${upvotes} upvotes.`
+              : `Upvote ${discovery.title}. Currently ${upvotes} upvotes.`
           }
-          className={`inline-flex items-center gap-1 rounded-xl border px-2.5 py-1.5 font-semibold transition-all cursor-pointer ${
-            isSaved
-              ? "border-buzz bg-buzz text-primary-foreground"
-              : "border-border/80 bg-secondary/80 text-muted-foreground hover:bg-secondary hover:text-foreground"
+          className={`group/btn inline-flex items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-bold transition-all cursor-pointer ${
+            isUpvoted
+              ? "border-live bg-live/15 text-live shadow-xs scale-102"
+              : "border-border/80 bg-secondary/80 text-foreground hover:border-buzz hover:bg-buzz/10 hover:text-buzz"
           }`}
-          title={isSaved ? "Saved in collection" : "Save this AI"}
+          title={isUpvoted ? "Upvoted" : "Upvote this tool"}
         >
-          <Bookmark className={`size-3.5 ${isSaved ? "fill-current" : ""}`} aria-hidden="true" />
+          <ArrowUp
+            className={`size-3.5 transition-transform group-hover/btn:-translate-y-0.5 ${
+              isUpvoted ? "stroke-[3]" : ""
+            }`}
+            aria-hidden="true"
+          />
+          <span>{upvotes}</span>
         </button>
 
-        <button
-          type="button"
-          onClick={onShare}
-          aria-label={`Share link to ${discovery.title}`}
-          className="grid size-8 place-items-center rounded-xl border border-border/80 bg-secondary/80 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground cursor-pointer"
-          title="Share link"
-        >
-          <Share2 className="size-3.5" aria-hidden="true" />
-        </button>
+        <div className="flex items-center gap-1.5">
+          {discovery.websiteUrl && (
+            <a
+              href={discovery.websiteUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Launch official site for ${discovery.title}`}
+              className="inline-flex items-center gap-1 rounded-xl bg-buzz px-3 py-1.5 font-bold text-primary-foreground text-xs hover:scale-105 active:scale-95 transition-transform"
+              title="Try AI / Visit Website"
+            >
+              <span>Try AI</span>
+              <ExternalLink className="size-3" />
+            </a>
+          )}
+
+          <button
+            type="button"
+            onClick={onToggleSave}
+            aria-label={
+              isSaved
+                ? `Remove ${discovery.title} from saved tools`
+                : `Save ${discovery.title} to your stack`
+            }
+            className={`inline-flex items-center gap-1 rounded-xl border px-2.5 py-1.5 font-semibold transition-all cursor-pointer ${
+              isSaved
+                ? "border-buzz bg-buzz text-primary-foreground"
+                : "border-border/80 bg-secondary/80 text-muted-foreground hover:bg-secondary hover:text-foreground"
+            }`}
+            title={isSaved ? "Saved in collection" : "Save this AI"}
+          >
+            <Bookmark className={`size-3.5 ${isSaved ? "fill-current" : ""}`} aria-hidden="true" />
+          </button>
+        </div>
       </div>
     </article>
   );
@@ -650,7 +650,6 @@ function TaaftRow({
   isSaved,
   onToggleUpvote,
   onToggleSave,
-  onShare,
   onExplore,
 }: {
   discovery: Discovery;
@@ -659,7 +658,6 @@ function TaaftRow({
   isSaved: boolean;
   onToggleUpvote: () => void;
   onToggleSave: () => void;
-  onShare: () => void;
   onExplore: () => void;
 }) {
   const priceClass =
@@ -766,14 +764,6 @@ function TaaftRow({
           }`}
         >
           <Bookmark className={`size-3.5 ${isSaved ? "fill-current" : ""}`} aria-hidden="true" />
-        </button>
-        <button
-          type="button"
-          onClick={onShare}
-          aria-label={`Share link to ${discovery.title}`}
-          className="grid size-8 place-items-center rounded-xl border border-border/80 bg-secondary/80 text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
-        >
-          <Share2 className="size-3.5" aria-hidden="true" />
         </button>
       </div>
     </article>

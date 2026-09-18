@@ -68,15 +68,14 @@ export function SiteFooter() {
       <div className="w-full">
         <div className="grid gap-10 md:grid-cols-[1.4fr_repeat(3,1fr)]">
           <div>
-            <div className="flex items-center gap-2">
-              <span className="grid size-8 place-items-center rounded-xl bg-buzz text-primary-foreground">
-                <Zap className="size-4" strokeWidth={2.5} />
-              </span>
-              <span className="font-display text-lg font-bold">
-                Buzz<span className="text-buzz">lok</span>
-                <span className="ml-1 text-[9px] font-extrabold uppercase tracking-wider rounded-md bg-buzz/20 text-buzz px-1.5 py-0.5 border border-buzz/30">
-                  AI
-                </span>
+            <div className="flex items-center gap-2.5">
+              <img
+                src="/logo-dark.png"
+                alt="Buzzlok"
+                className="h-8 w-auto object-contain"
+              />
+              <span className="text-[9px] font-extrabold uppercase tracking-wider rounded-md bg-buzz/20 text-buzz px-1.5 py-0.5 border border-buzz/30">
+                AI
               </span>
             </div>
             <p className="mt-4 max-w-xs text-xs sm:text-sm text-muted-foreground leading-relaxed">
