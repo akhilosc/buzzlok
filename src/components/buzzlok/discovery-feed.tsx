@@ -241,8 +241,18 @@ export function DiscoveryFeed() {
                       : "border-border/70 bg-card/60 text-muted-foreground hover:border-buzz/40 hover:bg-secondary hover:text-foreground"
                   }`}
                 >
-                  <span>{cat.icon}</span>
-                  <span>{cat.label}</span>
+                  <span className="flex items-center gap-1.5">
+                    {cat.iconUrl ? (
+                      <img
+                        src={cat.iconUrl}
+                        alt={cat.label}
+                        className="size-4 object-contain shrink-0"
+                      />
+                    ) : (
+                      <span>{cat.icon}</span>
+                    )}
+                    <span>{cat.label}</span>
+                  </span>
                   <span
                     className={`rounded-full px-1.5 py-0.2 text-[10px] font-bold ${
                       isSelected ? "bg-black/25 text-white" : "bg-secondary text-muted-foreground"

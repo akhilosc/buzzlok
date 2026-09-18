@@ -77,18 +77,18 @@ export const lanes = [
   "⭐ Editor's Choice",
 ] as const;
 
-export const categories: { label: string; kind?: DiscoveryKind; icon: string }[] = [
-  { label: "AI Agents & Autonomy", kind: "Agent", icon: "🤖" },
-  { label: "Coding & Dev Tools", kind: "Coding", icon: "💻" },
-  { label: "Reasoning & LLMs", kind: "Reasoning", icon: "🧠" },
-  { label: "Image & 3D Gen", kind: "Vision", icon: "🎨" },
-  { label: "Video & Motion AI", kind: "Vision", icon: "🎬" },
-  { label: "Voice & Audio AI", kind: "Audio", icon: "🎙️" },
-  { label: "Research & Data", kind: "Reasoning", icon: "📊" },
-  { label: "Productivity & Workflows", kind: "Tool", icon: "⚡" },
-  { label: "Open Source & Weights", kind: "OpenSource", icon: "🌐" },
-  { label: "Writing & Content", kind: "Tool", icon: "✍️" },
-  { label: "Music & Audio", kind: "Audio", icon: "🎵" },
+export const categories: { label: string; kind?: DiscoveryKind; icon: string; iconUrl?: string }[] = [
+  { label: "AI Agents & Autonomy", kind: "Agent", icon: "🤖", iconUrl: "/icons/categories/agents.png" },
+  { label: "Coding & Dev Tools", kind: "Coding", icon: "💻", iconUrl: "/icons/categories/coding.png" },
+  { label: "Reasoning & LLMs", kind: "Reasoning", icon: "🧠", iconUrl: "/icons/categories/reasoning.png" },
+  { label: "Image & 3D Gen", kind: "Vision", icon: "🎨", iconUrl: "/icons/categories/image.png" },
+  { label: "Video & Motion AI", kind: "Vision", icon: "🎬", iconUrl: "/icons/categories/video.png" },
+  { label: "Voice & Audio AI", kind: "Audio", icon: "🎙️", iconUrl: "/icons/categories/voice.png" },
+  { label: "Research & Data", kind: "Reasoning", icon: "📊", iconUrl: "/icons/categories/research.png" },
+  { label: "Productivity & Workflows", kind: "Tool", icon: "⚡", iconUrl: "/icons/categories/productivity.png" },
+  { label: "Open Source & Weights", kind: "OpenSource", icon: "🌐", iconUrl: "/icons/categories/opensource.png" },
+  { label: "Writing & Content", kind: "Tool", icon: "✍️", iconUrl: "/icons/categories/writing.png" },
+  { label: "Music & Audio", kind: "Audio", icon: "🎵", iconUrl: "/icons/categories/music.png" },
 ];
 
 export const neighborhoods = [

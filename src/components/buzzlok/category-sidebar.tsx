@@ -163,8 +163,16 @@ export function CategorySidebar() {
                       : "text-muted-foreground hover:bg-secondary/70 hover:text-foreground"
                   }`}
                 >
-                  <span className="flex items-center gap-2 truncate">
-                    <span className="text-sm shrink-0">{cat.icon}</span>
+                  <span className="flex items-center gap-2.5 truncate">
+                    {cat.iconUrl ? (
+                      <img
+                        src={cat.iconUrl}
+                        alt={cat.label}
+                        className="size-5 object-contain shrink-0 drop-shadow-sm transition-transform duration-150 group-hover:scale-110"
+                      />
+                    ) : (
+                      <span className="text-sm shrink-0">{cat.icon}</span>
+                    )}
                     <span className="truncate">{cat.label}</span>
                   </span>
                   <span
@@ -313,14 +321,22 @@ export function CategorySidebar() {
                 key={cat.label}
                 type="button"
                 onClick={() => handleCategorySelect(cat.kind)}
-                className={`group relative grid size-12 place-items-center rounded-2xl transition-all duration-150 cursor-pointer ${
+                className={`group relative grid size-12 place-items-center rounded-2xl transition-all duration-150 cursor-pointer p-1.5 ${
                   isSelected
                     ? "bg-buzz/20 text-buzz border-2 border-buzz/60 shadow-md scale-105 font-bold"
                     : "border border-border/60 bg-card/60 text-muted-foreground hover:border-buzz/40 hover:bg-secondary hover:text-foreground"
                 }`}
                 title={`${cat.label} (${count})`}
               >
-                <span className="text-xl">{cat.icon}</span>
+                {cat.iconUrl ? (
+                  <img
+                    src={cat.iconUrl}
+                    alt={cat.label}
+                    className="size-8 object-contain drop-shadow-sm transition-transform duration-150 group-hover:scale-110"
+                  />
+                ) : (
+                  <span className="text-xl">{cat.icon}</span>
+                )}
 
                 {/* Active Indicator Dot */}
                 {isSelected && (
