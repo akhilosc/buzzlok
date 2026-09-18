@@ -1,11 +1,8 @@
+import { useState } from "react";
 import {
   Bookmark,
-  ChevronLeft,
-  ChevronRight,
   Layers,
   Mail,
-  PanelLeftClose,
-  PanelLeftOpen,
   Sparkles,
   Tag,
   X,
@@ -25,10 +22,10 @@ export function CategorySidebar() {
     setIsSubmitModalOpen,
     isSidebarOpen,
     setIsSidebarOpen,
-    isSidebarCollapsed,
-    setIsSidebarCollapsed,
     setSearchQuery,
   } = useBuzzlok();
+
+  const [isHovered, setIsHovered] = useState(false);
 
   const handleCategorySelect = (kind?: string) => {
     setActiveCategory(kind || "All");
@@ -58,10 +55,10 @@ export function CategorySidebar() {
   };
 
   // -------------------------------------------------------------
-  // Full Expanded Sidebar Content (Used in expanded mode & mobile)
+  // Full Expanded Sidebar Content (Rendered on Hover & Mobile)
   // -------------------------------------------------------------
   const fullContent = (
-    <div className="flex h-full flex-col justify-between p-4 sm:p-5">
+    <div className="flex h-full w-72 flex-col justify-between p-4 sm:p-5 overflow-y-auto scrollbar-thin">
       {/* Top Header & Brand */}
       <div className="space-y-5">
         <div className="flex items-center justify-between pb-3 border-b border-border/60">
@@ -76,27 +73,15 @@ export function CategorySidebar() {
             </span>
           </a>
 
-          <div className="flex items-center gap-1">
-            {/* Desktop Collapse Toggle */}
-            <button
-              type="button"
-              onClick={() => setIsSidebarCollapsed(true)}
-              className="hidden lg:grid size-8 place-items-center rounded-lg text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors cursor-pointer"
-              title="Collapse to slim sidebar"
-            >
-              <PanelLeftClose className="size-4" />
-            </button>
-
-            {/* Mobile close button */}
-            <button
-              type="button"
-              onClick={() => setIsSidebarOpen(false)}
-              className="rounded-lg p-1 text-muted-foreground hover:bg-secondary hover:text-foreground lg:hidden cursor-pointer"
-              title="Close menu"
-            >
-              <X className="size-5" />
-            </button>
-          </div>
+          {/* Mobile close button only */}
+          <button
+            type="button"
+            onClick={() => setIsSidebarOpen(false)}
+            className="rounded-lg p-1 text-muted-foreground hover:bg-secondary hover:text-foreground lg:hidden cursor-pointer"
+            title="Close menu"
+          >
+            <X className="size-5" />
+          </button>
         </div>
 
         {/* Action Button: Submit AI Tool */}
@@ -143,12 +128,12 @@ export function CategorySidebar() {
                       : "text-muted-foreground hover:bg-secondary/70 hover:text-foreground"
                   }`}
                 >
-                  <span className="flex items-center gap-2">
-                    <span className="text-sm">{cat.icon}</span>
-                    <span>{cat.label}</span>
+                  <span className="flex items-center gap-2 truncate">
+                    <span className="text-sm shrink-0">{cat.icon}</span>
+                    <span className="truncate">{cat.label}</span>
                   </span>
                   <span
-                    className={`rounded-full px-2 py-0.5 text-[10px] font-semibold transition-colors ${
+                    className={`rounded-full px-2 py-0.5 text-[10px] font-semibold transition-colors shrink-0 ${
                       isSelected
                         ? "bg-buzz text-primary-foreground"
                         : "bg-secondary text-muted-foreground group-hover:text-foreground"
@@ -253,28 +238,18 @@ export function CategorySidebar() {
             <Mail className="size-3.5 text-accent" />
             <span>Buzzlok Daily</span>
           </span>
-          <ChevronRight className="size-3 text-muted-foreground" />
+          <span className="text-[10px] text-muted-foreground font-semibold">Free</span>
         </a>
-
-        {/* Collapse button at bottom */}
-        <button
-          type="button"
-          onClick={() => setIsSidebarCollapsed(true)}
-          className="hidden lg:flex w-full items-center justify-center gap-1.5 rounded-xl border border-border/70 py-2 text-xs font-medium text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors cursor-pointer"
-        >
-          <ChevronLeft className="size-3.5" />
-          <span>Collapse Menu</span>
-        </button>
       </div>
     </div>
   );
 
   // -------------------------------------------------------------
-  // Slim Sidebar Content (Icon-only with Expand Trigger)
+  // Slim Sidebar Content (Default View when not hovered)
   // -------------------------------------------------------------
   const slimContent = (
-    <div className="flex h-full flex-col justify-between items-center py-4 px-2">
-      {/* Top: Logo icon + Expand trigger */}
+    <div className="flex h-full w-16 flex-col justify-between items-center py-4 px-2">
+      {/* Top: Logo icon + Quick Submit */}
       <div className="flex flex-col items-center gap-3 w-full">
         {/* Logo Icon */}
         <a
@@ -289,17 +264,7 @@ export function CategorySidebar() {
           />
         </a>
 
-        {/* Expand Sidebar Toggle */}
-        <button
-          type="button"
-          onClick={() => setIsSidebarCollapsed(false)}
-          className="grid size-9 place-items-center rounded-xl border border-border/70 bg-secondary/60 text-muted-foreground hover:border-buzz/50 hover:bg-buzz/10 hover:text-buzz transition-all cursor-pointer group"
-          title="Expand menu"
-        >
-          <PanelLeftOpen className="size-4 transition-transform group-hover:scale-110" />
-        </button>
-
-        {/* Submit Tool Icon Button */}
+        {/* Quick Submit Tool Icon Button */}
         <button
           type="button"
           onClick={() => setIsSubmitModalOpen(true)}
@@ -369,30 +334,25 @@ export function CategorySidebar() {
         >
           <Mail className="size-4" />
         </a>
-
-        {/* Expand Arrow Button */}
-        <button
-          type="button"
-          onClick={() => setIsSidebarCollapsed(false)}
-          className="grid size-8 place-items-center rounded-lg text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors cursor-pointer"
-          title="Expand menu"
-        >
-          <ChevronRight className="size-4" />
-        </button>
       </div>
     </div>
   );
 
   return (
     <>
-      {/* Desktop Sticky Sidebar (Slim by default with smooth expand) */}
+      {/* Desktop Sticky Sidebar Placeholder (Maintains layout width so page does not shift) */}
+      <div className="hidden lg:block w-16 shrink-0" />
+
+      {/* Desktop Hover Auto-Expanding Sidebar */}
       <aside
         aria-label="Discovery Categories Navigation"
-        className={`hidden lg:flex shrink-0 flex-col border-r border-border/70 bg-card/40 backdrop-blur-xl h-screen sticky top-0 overflow-y-auto scrollbar-thin z-30 transition-all duration-300 ease-in-out ${
-          isSidebarCollapsed ? "w-16" : "w-64 xl:w-72"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        className={`hidden lg:flex fixed inset-y-0 left-0 z-40 flex-col border-r border-border/70 bg-card/95 backdrop-blur-2xl shadow-xl transition-all duration-300 ease-out overflow-hidden ${
+          isHovered ? "w-72 shadow-2xl ring-1 ring-buzz/20" : "w-16"
         }`}
       >
-        {isSidebarCollapsed ? slimContent : fullContent}
+        {isHovered ? fullContent : slimContent}
       </aside>
 
       {/* Mobile Drawer Overlay */}
