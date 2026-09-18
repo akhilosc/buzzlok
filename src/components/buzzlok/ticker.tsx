@@ -17,7 +17,10 @@ export function Ticker() {
       />
       <div className="animate-marquee flex w-max gap-10 whitespace-nowrap">
         {items.map((item, i) => (
-          <span key={`${item}-${i}`} className="flex items-center gap-3 text-sm text-muted-foreground">
+          <span
+            key={`${item}-${i}`}
+            className="flex items-center gap-3 text-sm text-muted-foreground"
+          >
             <span className="size-1.5 rounded-full bg-buzz" />
             {item}
           </span>

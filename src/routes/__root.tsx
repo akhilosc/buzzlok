@@ -8,6 +8,7 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import { useEffect, type ReactNode } from "react";
+import { Toaster } from "../components/ui/sonner";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
@@ -24,7 +25,7 @@ function NotFoundComponent() {
         <div className="mt-6">
           <Link
             to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="inline-flex items-center justify-center rounded-xl bg-buzz px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-all duration-200 hover:scale-[1.03]"
           >
             Go home
           </Link>
@@ -56,13 +57,13 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
               router.invalidate();
               reset();
             }}
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
+            className="inline-flex items-center justify-center rounded-xl bg-buzz px-5 py-2.5 text-sm font-semibold text-primary-foreground transition-colors hover:bg-buzz/90"
           >
             Try again
           </button>
           <a
             href="/"
-            className="inline-flex items-center justify-center rounded-md border border-input bg-background px-4 py-2 text-sm font-medium text-foreground transition-colors hover:bg-accent"
+            className="inline-flex items-center justify-center rounded-xl border border-input bg-card px-5 py-2.5 text-sm font-medium text-foreground transition-colors hover:bg-secondary"
           >
             Go home
           </a>
@@ -72,26 +73,162 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
   );
 }
 
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://buzzlok.com/#website",
+      url: "https://buzzlok.com",
+      name: "Buzzlok AI",
+      description:
+        "The real-time AI tools, autonomous agents, and foundation models directory. Find the best AI for coding, deep reasoning, generative video, audio, and workflows.",
+      publisher: {
+        "@id": "https://buzzlok.com/#organization",
+      },
+      potentialAction: [
+        {
+          "@type": "SearchAction",
+          target: {
+            "@type": "EntryPoint",
+            urlTemplate: "https://buzzlok.com/?q={search_term_string}",
+          },
+          "query-input": "required name=search_term_string",
+        },
+      ],
+      inLanguage: "en-US",
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://buzzlok.com/#organization",
+      name: "Buzzlok AI",
+      url: "https://buzzlok.com",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://buzzlok.com/favicon.ico",
+      },
+      sameAs: ["https://twitter.com/Buzzlok"],
+    },
+    {
+      "@type": "ItemList",
+      "@id": "https://buzzlok.com/#directory",
+      name: "Top AI Tools, Autonomous Agents & Models",
+      description:
+        "Curated directory of high-signal AI software applications, reasoning models, and agentic workflows.",
+      itemListElement: [
+        {
+          "@type": "ListItem",
+          position: 1,
+          name: "Claude 3.7 Sonnet (Anthropic)",
+          description:
+            "Flagship hybrid reasoning foundation model with controllable thinking tokens.",
+          url: "https://buzzlok.com/#feed",
+        },
+        {
+          "@type": "ListItem",
+          position: 2,
+          name: "Cursor: AI Code Editor",
+          description:
+            "Agentic pair-programming code editor with multi-file composer and codebase indexing.",
+          url: "https://buzzlok.com/#feed",
+        },
+        {
+          "@type": "ListItem",
+          position: 3,
+          name: "DeepSeek-R1 Open Reasoning",
+          description:
+            "Frontier open-weights reasoning model matching OpenAI o1 under MIT license.",
+          url: "https://buzzlok.com/#feed",
+        },
+        {
+          "@type": "ListItem",
+          position: 4,
+          name: "Devin AI: Autonomous Software Engineer",
+          description:
+            "Autonomous coding agent equipped with shell, browser sandbox, and editor to solve issues end-to-end.",
+          url: "https://buzzlok.com/#feed",
+        },
+      ],
+    },
+  ],
+};
+
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
     meta: [
       { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { name: "viewport", content: "width=device-width, initial-scale=1, maximum-scale=5" },
+      { title: "Buzzlok AI — Search & Discover Every AI Tool & Agent" },
+      {
+        name: "description",
+        content:
+          "Search and discover verified AI tools, autonomous agents, open-weights reasoning models, and generative workflows. Find the intelligence that moves your world.",
+      },
+      {
+        name: "keywords",
+        content:
+          "Buzzlok, AI directory, AI search engine, AI tools, autonomous agents, generative AI, LLM models, Cursor AI, Claude 3.7, DeepSeek R1, best AI for coding, open source AI, AI workflows, real-time AI radar",
+      },
+      { name: "author", content: "Buzzlok AI" },
+      {
+        name: "robots",
+        content: "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
+      },
+      { name: "theme-color", content: "#0a0b0e" },
+      { name: "color-scheme", content: "dark" },
+      { property: "og:site_name", content: "Buzzlok AI" },
+      { property: "og:locale", content: "en_US" },
+      {
+        property: "og:title",
+        content: "Buzzlok AI — Search & Discover Every AI Tool & Agent",
+      },
+      {
+        property: "og:description",
+        content:
+          "Search and discover verified AI tools, autonomous agents, open-weights reasoning models, and generative workflows. Find the intelligence that moves your world.",
+      },
       { property: "og:type", content: "website" },
+      { property: "og:url", content: "https://buzzlok.com/" },
+      { property: "og:image", content: "https://buzzlok.com/og-image.svg" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      {
+        property: "og:image:alt",
+        content: "Buzzlok AI — Search & Discover Every AI Tool & Agent",
+      },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:site", content: "@Buzzlok" },
+      { name: "twitter:creator", content: "@Buzzlok" },
+      { name: "twitter:title", content: "Buzzlok AI — Search & Discover Every AI Tool & Agent" },
+      {
+        name: "twitter:description",
+        content:
+          "The real-time discovery engine for artificial intelligence. Search verified AI tools, autonomous agents, and foundation models built for your workflow.",
+      },
+      { name: "twitter:image", content: "https://buzzlok.com/og-image.svg" },
+      { name: "application-name", content: "Buzzlok AI" },
+      { name: "apple-mobile-web-app-title", content: "Buzzlok AI" },
+      { name: "apple-mobile-web-app-capable", content: "yes" },
+      { name: "apple-mobile-web-app-status-bar-style", content: "black-translucent" },
     ],
     links: [
+      { rel: "canonical", href: "https://buzzlok.com/" },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      {
+        rel: "preconnect",
+        href: "https://fonts.gstatic.com",
+        crossOrigin: "anonymous",
+      },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Space+Grotesk:wght@300..700&display=swap",
+      },
       {
         rel: "stylesheet",
         href: appCss,
       },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "manifest", href: "/site.webmanifest" },
     ],
   }),
   shellComponent: RootShell,
@@ -102,9 +239,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 
 function RootShell({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <head>
         <HeadContent />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
       </head>
       <body>
         {children}
@@ -121,6 +262,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      <Toaster richColors position="bottom-right" />
     </QueryClientProvider>
   );
 }

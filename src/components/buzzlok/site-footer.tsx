@@ -1,18 +1,71 @@
 import { Zap } from "lucide-react";
-
-const columns = [
-  {
-    title: "Discover",
-    links: ["Buzz Now", "Around You", "Trending", "What's New", "Events", "Places"],
-  },
-  { title: "Worth", links: ["Worth Knowing", "Worth Doing", "Worth Buying", "Deals", "Useful"] },
-  { title: "Participate", links: ["Submit a Buzz", "Claim your business", "Advertise", "Buzzlok Daily"] },
-];
+import { useBuzzlok } from "@/context/buzzlok-context";
 
 export function SiteFooter() {
+  const { setActiveLane, setIsSubmitModalOpen, setIsClaimModalOpen } = useBuzzlok();
+
+  const handleLinkClick = (title: string, link: string) => {
+    if (link === "Submit AI Tool" || link === "Submit a Buzz") {
+      setIsSubmitModalOpen(true);
+      return;
+    }
+    if (link === "Claim Founder Profile" || link === "Advertise AI") {
+      setIsClaimModalOpen(true);
+      return;
+    }
+
+    if (
+      [
+        "All AI Tools",
+        "🔥 Trending Today",
+        "⚡ New Launches",
+        "🤖 Autonomous Agents",
+        "🧠 Reasoning Models",
+        "💸 Free & Open Source",
+        "⭐ Editor's Choice",
+      ].includes(link)
+    ) {
+      setActiveLane(link);
+    }
+
+    const feed = document.getElementById("feed");
+    if (feed) {
+      feed.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  const columns = [
+    {
+      title: "AI Categories",
+      links: [
+        "AI Agents & Autonomy",
+        "Coding & Dev Tools",
+        "Reasoning & LLMs",
+        "Image & 3D Gen",
+        "Video & Motion AI",
+        "Voice & Audio AI",
+      ],
+    },
+    {
+      title: "Discovery Lanes",
+      links: [
+        "🔥 Trending Today",
+        "⚡ New Launches",
+        "🤖 Autonomous Agents",
+        "🧠 Reasoning Models",
+        "💸 Free & Open Source",
+        "⭐ Editor's Choice",
+      ],
+    },
+    {
+      title: "For Builders",
+      links: ["Submit AI Tool", "Claim Founder Profile", "Advertise AI", "AI Digest"],
+    },
+  ];
+
   return (
-    <footer className="border-t border-border px-4 py-14">
-      <div className="mx-auto max-w-6xl">
+    <footer className="w-full border-t border-border bg-card/20 px-4 sm:px-6 lg:px-8 py-14">
+      <div className="w-full">
         <div className="grid gap-10 md:grid-cols-[1.4fr_repeat(3,1fr)]">
           <div>
             <div className="flex items-center gap-2">
@@ -21,25 +74,30 @@ export function SiteFooter() {
               </span>
               <span className="font-display text-lg font-bold">
                 Buzz<span className="text-buzz">lok</span>
+                <span className="ml-1 text-[9px] font-extrabold uppercase tracking-wider rounded-md bg-buzz/20 text-buzz px-1.5 py-0.5 border border-buzz/30">
+                  AI
+                </span>
               </span>
             </div>
-            <p className="mt-4 max-w-xs text-sm text-muted-foreground">
-              The discovery layer for everyday life. Discover. Know. Explore. Do.
+            <p className="mt-4 max-w-xs text-xs sm:text-sm text-muted-foreground leading-relaxed">
+              The real-time discovery engine for artificial intelligence. Search verified AI tools,
+              autonomous agents, open-weights reasoning models, and generative workflows built for your workflow.
             </p>
           </div>
 
           {columns.map((col) => (
             <div key={col.title}>
-              <p className="text-sm font-semibold">{col.title}</p>
+              <p className="text-xs font-bold uppercase tracking-wider text-buzz">{col.title}</p>
               <ul className="mt-3 space-y-2">
                 {col.links.map((link) => (
                   <li key={link}>
-                    <a
-                      href="#feed"
-                      className="text-sm text-muted-foreground transition-colors hover:text-buzz"
+                    <button
+                      type="button"
+                      onClick={() => handleLinkClick(col.title, link)}
+                      className="text-xs sm:text-sm text-muted-foreground transition-colors hover:text-buzz text-left cursor-pointer"
                     >
                       {link}
-                    </a>
+                    </button>
                   </li>
                 ))}
               </ul>
@@ -47,9 +105,16 @@ export function SiteFooter() {
           ))}
         </div>
 
-        <p className="mt-12 border-t border-border pt-6 text-xs text-muted-foreground">
-          © {new Date().getFullYear()} Buzzlok. A discovery platform, not a news website.
-        </p>
+        <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-border pt-6 text-xs text-muted-foreground">
+          <p>
+            © {new Date().getFullYear()} Buzzlok AI. The Real-Time AI & Agent Discovery Engine.
+          </p>
+          <p className="flex items-center gap-2">
+            <span>Global AI Radar</span>
+            <span>·</span>
+            <span>Live Stream</span>
+          </p>
+        </div>
       </div>
     </footer>
   );
