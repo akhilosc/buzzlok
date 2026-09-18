@@ -1,6 +1,7 @@
 import { useState } from "react";
 import {
   Bookmark,
+  Home,
   Layers,
   Mail,
   Sparkles,
@@ -15,15 +16,30 @@ export function CategorySidebar() {
     discoveries,
     activeCategory,
     setActiveCategory,
+    setActiveLane,
+    setSelectedArea,
+    searchQuery,
+    setSearchQuery,
     savedIds,
     setIsSavedDrawerOpen,
     setIsSubmitModalOpen,
     isSidebarOpen,
     setIsSidebarOpen,
-    setSearchQuery,
   } = useBuzzlok();
 
   const [isHovered, setIsHovered] = useState(false);
+
+  const handleHomeClick = () => {
+    setActiveCategory("All");
+    setActiveLane("All AI Tools");
+    setSelectedArea("All Ecosystems");
+    setSearchQuery("");
+    setIsSidebarOpen(false);
+    const top = document.getElementById("top") || document.getElementById("feed");
+    if (top) {
+      top.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   const handleCategorySelect = (kind?: string) => {
     setActiveCategory(kind || "All");
@@ -49,7 +65,7 @@ export function CategorySidebar() {
   const fullContent = (
     <div className="flex h-full w-72 flex-col justify-between p-4 sm:p-5 overflow-y-auto scrollbar-thin">
       {/* Top Header & Brand */}
-      <div className="space-y-5">
+      <div className="space-y-4">
         <div className="flex items-center justify-between pb-3 border-b border-border/60">
           <a href="#top" className="group flex items-center gap-2.5">
             <img
@@ -73,17 +89,45 @@ export function CategorySidebar() {
           </button>
         </div>
 
-        {/* Action Button: Submit AI Tool */}
-        <button
-          type="button"
-          onClick={() => {
-            setIsSubmitModalOpen(true);
-            setIsSidebarOpen(false);
-          }}
-          className="flex w-full items-center justify-center gap-2 rounded-xl bg-buzz px-3.5 py-2.5 text-xs font-bold text-primary-foreground shadow-sm transition-transform duration-200 hover:scale-[1.02] active:scale-95 cursor-pointer"
-        >
-          <Sparkles className="size-3.5" /> Submit AI Tool +
-        </button>
+        {/* Navigation Quick Actions: Dedicated Home + Submit AI Tool */}
+        <div className="space-y-2">
+          {/* Dedicated Home Button */}
+          <button
+            type="button"
+            onClick={handleHomeClick}
+            className={`group flex w-full items-center justify-between rounded-xl px-3.5 py-2.5 text-xs font-bold transition-all duration-150 cursor-pointer ${
+              activeCategory.toLowerCase() === "all" && !searchQuery
+                ? "bg-buzz/15 text-buzz font-bold shadow-xs border border-buzz/30"
+                : "text-muted-foreground hover:bg-secondary/70 hover:text-foreground"
+            }`}
+          >
+            <span className="flex items-center gap-2.5">
+              <Home className="size-4 text-buzz" />
+              <span>Home</span>
+            </span>
+            <span
+              className={`rounded-full px-2 py-0.5 text-[10px] font-semibold transition-colors shrink-0 ${
+                activeCategory.toLowerCase() === "all" && !searchQuery
+                  ? "bg-buzz text-primary-foreground"
+                  : "bg-secondary text-muted-foreground group-hover:text-foreground"
+              }`}
+            >
+              {discoveries.length}
+            </span>
+          </button>
+
+          {/* Action Button: Submit AI Tool */}
+          <button
+            type="button"
+            onClick={() => {
+              setIsSubmitModalOpen(true);
+              setIsSidebarOpen(false);
+            }}
+            className="flex w-full items-center justify-center gap-2 rounded-xl bg-buzz px-3.5 py-2.5 text-xs font-bold text-primary-foreground shadow-sm transition-transform duration-200 hover:scale-[1.02] active:scale-95 cursor-pointer"
+          >
+            <Sparkles className="size-3.5" /> Submit AI Tool +
+          </button>
+        </div>
 
         {/* Categories Section */}
         <div>
@@ -93,7 +137,7 @@ export function CategorySidebar() {
               AI Categories
             </span>
             <span className="rounded-full bg-secondary/80 px-1.5 py-0.5 text-[9px] font-semibold text-muted-foreground">
-              {discoveries.length}
+              {categories.length}
             </span>
           </div>
 
@@ -104,7 +148,9 @@ export function CategorySidebar() {
                   ? discoveries.length
                   : discoveries.filter((d) => d.kind.toLowerCase() === cat.kind?.toLowerCase())
                       .length;
-              const isSelected = (cat.kind || "All").toLowerCase() === activeCategory.toLowerCase();
+              const isSelected =
+                activeCategory.toLowerCase() !== "all" &&
+                (cat.kind || "").toLowerCase() === activeCategory.toLowerCase();
 
               return (
                 <button
@@ -207,7 +253,7 @@ export function CategorySidebar() {
   // -------------------------------------------------------------
   const slimContent = (
     <div className="flex h-full w-20 flex-col justify-between items-center py-4 px-2">
-      {/* Top: Big Square Logo icon + Big Square Submit */}
+      {/* Top: Big Square Logo icon + Big Square Home + Big Square Submit */}
       <div className="flex flex-col items-center gap-3 w-full">
         {/* Big Square Logo Icon */}
         <a
@@ -221,6 +267,23 @@ export function CategorySidebar() {
             className="size-10 object-contain drop-shadow-sm transition-transform duration-200 group-hover:scale-110"
           />
         </a>
+
+        {/* Big Square Dedicated Home Button */}
+        <button
+          type="button"
+          onClick={handleHomeClick}
+          className={`group relative grid size-12 place-items-center rounded-2xl transition-all duration-150 cursor-pointer ${
+            activeCategory.toLowerCase() === "all" && !searchQuery
+              ? "bg-buzz/20 text-buzz border-2 border-buzz/60 shadow-md scale-105 font-bold"
+              : "border border-border/60 bg-card/60 text-muted-foreground hover:border-buzz/40 hover:bg-secondary hover:text-foreground"
+          }`}
+          title={`Home (${discoveries.length} AI Tools)`}
+        >
+          <Home className="size-5" />
+          {activeCategory.toLowerCase() === "all" && !searchQuery && (
+            <span className="absolute -top-1 -right-1 size-2.5 rounded-full bg-buzz ring-2 ring-background" />
+          )}
+        </button>
 
         {/* Big Square Submit Tool Button */}
         <button
@@ -237,7 +300,9 @@ export function CategorySidebar() {
         {/* Big Square Category Icons Stack */}
         <div className="flex flex-col items-center gap-2 w-full">
           {categories.map((cat) => {
-            const isSelected = (cat.kind || "All").toLowerCase() === activeCategory.toLowerCase();
+            const isSelected =
+              activeCategory.toLowerCase() !== "all" &&
+              (cat.kind || "").toLowerCase() === activeCategory.toLowerCase();
             const count =
               cat.kind === undefined
                 ? discoveries.length

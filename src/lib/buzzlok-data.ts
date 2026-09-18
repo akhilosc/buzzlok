@@ -78,7 +78,6 @@ export const lanes = [
 ] as const;
 
 export const categories: { label: string; kind?: DiscoveryKind; icon: string }[] = [
-  { label: "All AI", icon: "✨" },
   { label: "AI Agents & Autonomy", kind: "Agent", icon: "🤖" },
   { label: "Coding & Dev Tools", kind: "Coding", icon: "💻" },
   { label: "Reasoning & LLMs", kind: "Reasoning", icon: "🧠" },

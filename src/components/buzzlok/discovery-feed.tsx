@@ -8,6 +8,7 @@ import {
   Compass,
   ExternalLink,
   Flame,
+  Home,
   LayoutGrid,
   List,
   Loader2,
@@ -195,20 +196,46 @@ export function DiscoveryFeed() {
 
           {/* Category Tabs with Item Counts */}
           <div className="mt-4 flex items-center gap-1.5 overflow-x-auto pb-2 scrollbar-none">
+            {/* All AI / Home Tab */}
+            <button
+              type="button"
+              onClick={() => {
+                setActiveCategory("All");
+                setSearchQuery("");
+              }}
+              className={`inline-flex shrink-0 items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-semibold transition-all cursor-pointer ${
+                activeCategory.toLowerCase() === "all" && !searchQuery
+                  ? "border-buzz bg-buzz text-primary-foreground shadow-xs scale-100"
+                  : "border-border/70 bg-card/60 text-muted-foreground hover:border-buzz/40 hover:bg-secondary hover:text-foreground"
+              }`}
+            >
+              <Home className="size-3.5" />
+              <span>All AI</span>
+              <span
+                className={`rounded-full px-1.5 py-0.2 text-[10px] font-bold ${
+                  activeCategory.toLowerCase() === "all" && !searchQuery ? "bg-black/25 text-white" : "bg-secondary text-muted-foreground"
+                }`}
+              >
+                {discoveries.length}
+              </span>
+            </button>
+
             {categories.map((cat) => {
               const count =
                 cat.kind === undefined
                   ? discoveries.length
                   : discoveries.filter((d) => d.kind.toLowerCase() === cat.kind?.toLowerCase())
                       .length;
-              const isSelected = (cat.kind || "All").toLowerCase() === activeCategory.toLowerCase();
+              const isSelected =
+                activeCategory.toLowerCase() !== "all" &&
+                (cat.kind || "").toLowerCase() === activeCategory.toLowerCase();
 
               return (
                 <button
                   key={cat.label}
                   type="button"
                   onClick={() => setActiveCategory(cat.kind || "All")}
-                  className={`inline-flex shrink-0 items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-semibold transition-all ${
+                  className={`inline-flex shrink-0 items-center gap-1.5 rounded-xl border px-3 py-1.5 text-xs font-semibold transition-all cursor-pointer ${
                     isSelected
                       ? "border-buzz bg-buzz text-primary-foreground shadow-xs scale-100"
                       : "border-border/70 bg-card/60 text-muted-foreground hover:border-buzz/40 hover:bg-secondary hover:text-foreground"
