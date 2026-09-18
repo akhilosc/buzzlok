@@ -387,8 +387,8 @@ export function CategorySidebar() {
         aria-label="Discovery Categories Navigation"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className={`hidden lg:flex fixed inset-y-0 left-0 z-40 flex-col border-r border-border/70 bg-card/95 backdrop-blur-2xl shadow-xl transition-all duration-300 ease-out overflow-hidden ${
-          isHovered ? "w-72 shadow-2xl ring-1 ring-buzz/20" : "w-20"
+        className={`hidden lg:flex fixed inset-y-0 left-0 z-50 flex-col border-r border-border/80 bg-[#07090e] shadow-2xl transition-all duration-300 ease-out overflow-hidden ${
+          isHovered ? "w-72 shadow-2xl ring-1 ring-buzz/30" : "w-20"
         }`}
       >
         {isHovered ? fullContent : slimContent}

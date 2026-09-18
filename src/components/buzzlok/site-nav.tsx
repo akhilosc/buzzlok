@@ -42,8 +42,8 @@ export function SiteNav() {
             <Menu className="size-5" />
           </button>
 
-          {/* Clean Dark Mode Logo */}
-          <a href="#top" className="group flex items-center gap-2">
+          {/* Mobile Brand Logo (hidden on desktop because sidebar is present) */}
+          <a href="#top" className="group flex items-center gap-2 lg:hidden">
             <img
               src="/logo-dark.png"
               alt="Buzzlok"
