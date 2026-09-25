@@ -1,0 +1,28 @@
+# Buzzlok AI
+> The Real-Time Discovery Engine & Directory for AI Tools, Autonomous Agents, and Open Foundation Models.
+
+## Overview
+Buzzlok AI indexes, verifies, and ranks artificial intelligence software across all major domains: autonomous coding agents, deep reasoning foundation models, text-to-image/3D, generative video, voice cloning, and workflow automation tools.
+
+## Core Categories
+- **AI Agents & Autonomy** (/): Self-directed software agents with tool-calling, sandboxed browsers, and multi-step task execution.
+- **Coding & Dev Tools** (/): AI pair-programming editors, codebase indexers, automated refactorers, and fullstack app builders.
+- **Reasoning & LLMs** (/): Frontier hybrid and test-time compute reasoning models (Claude 3.7 Sonnet, DeepSeek-R1, OpenAI o3-mini).
+- **Image & 3D Gen** (/): Real-time diffusion transformers, multi-view 3D mesh generators, and photo synthesis.
+- **Video & Motion AI** (/): High-frame-rate video generators and motion controllers (Sora, Runway Gen-3, Kling, Hailuo).
+- **Voice & Audio AI** (/): Low-latency voice cloning, speech-to-speech synthesis, and ambient audio generation.
+- **Research & Data** (/): Deep literature synthesizers, citation analyzers, and knowledge-graph extractors.
+- **Productivity & Workflows** (/): Autonomous browser automation, meeting recorders, and enterprise knowledge connectors.
+- **Open Source & Weights** (/): Verified open-weights model weights, Hugging Face checkpoints, and local LLM runners.
+- **Writing & Content** (/): Multilingual copywriting, marketing copy generators, and document synthesizers.
+- **Music & Audio** (/): Generative music studios and multi-track audio engines (Udio, Suno).
+
+## Key Features & Feeds
+- **Live AI Radar**: Real-time autonomous ingestion from GitHub trending repositories and Hugging Face model hub.
+- **Fast Natural Language Task Search**: Instant client-side intent matching for prompts like "local llm", "code editor", "reasoning", "voice clone".
+- **Structured JSON-LD Schema**: Full Schema.org ItemList and WebSite definitions available at https://buzzlok.com.
+
+## Canonical Links
+- Main Directory: https://buzzlok.com/
+- Sitemap: https://buzzlok.com/sitemap.xml
+- LLM Index: https://buzzlok.com/llms.txt

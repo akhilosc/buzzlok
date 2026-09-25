@@ -1,3 +1,6 @@
+# Robots.txt for Buzzlok AI
+# Allow all search engines and AI crawlers to index the directory
+
 User-agent: Googlebot
 Allow: /
 
@@ -10,7 +13,28 @@ Allow: /
 User-agent: facebookexternalhit
 Allow: /
 
+# AI Agents & LLM Crawlers
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
 User-agent: *
 Allow: /
 
 Sitemap: https://buzzlok.com/sitemap.xml
+# LLMs.txt index for AI assistants & agents:
+# https://buzzlok.com/llms.txt
